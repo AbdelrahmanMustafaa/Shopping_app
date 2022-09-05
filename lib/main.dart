@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
           primary: myDarkBLue,
         ),
       ),
+      // test comment
       debugShowCheckedModeBanner: false,
       home: Sizer(
         builder: (context, orientation, deviceType) {
