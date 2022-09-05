@@ -44,14 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   tabs: [
                     Tab(
                       icon: Icon(Icons.factory),
+                      child: Text('factory'),
                     ),
                     Tab(
                       icon: Icon(Icons.shopping_cart),
-
                     ),
                     Tab(
                       icon: Icon(Icons.person_add),
-
                     )
                   ],
                 ),
