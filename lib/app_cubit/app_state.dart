@@ -19,3 +19,5 @@ class SignInSuccess extends AppState {}
 class SignInError extends AppState {}
 
 class GetInitPageState extends AppState{}
+
+class ChangeDarkModeState extends AppState{}

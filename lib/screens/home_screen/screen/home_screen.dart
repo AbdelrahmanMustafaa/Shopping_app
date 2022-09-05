@@ -11,21 +11,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/reusable/my_colors.dart';
 import '../../../app_cubit/app_cubit.dart';
 import '../../../app_cubit/app_state.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     DioHandler.init();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -34,14 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
-          GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
           int i = 1 ;
           return SafeArea(
             child: DefaultTabController(
               initialIndex:i,
               length: 3,
               child: Scaffold(
-                key: scaffoldKey,
+                key: cubit.scaffoldKey,
                 backgroundColor: myLightBlack,
                 endDrawer: Drawer(
                   backgroundColor: myLightBlack.withOpacity(0.95),
@@ -279,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.only(right: 15.0),
                                     child: IconButton(
                                       onPressed: () {
-                                        scaffoldKey.currentState!
+                                       cubit.scaffoldKey.currentState!
                                             .openEndDrawer();
                                       },
                                       icon: Icon(

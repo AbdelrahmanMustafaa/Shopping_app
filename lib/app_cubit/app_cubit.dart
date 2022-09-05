@@ -16,9 +16,16 @@ class AppCubit extends Cubit<AppState> {
   static final AppCubit _instance = AppCubit._internal();
 
   factory AppCubit()=>_instance ;
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 
 
   bool dark= false ;
+  changDarkMode ()
+  {
+    dark = !dark ;
+    emit(ChangeDarkModeState());
+  }
   MyDatabaseHandler databaseHandler = MyDatabaseHandler();
 
   Icon mainIcon = Icon(Icons.visibility);
