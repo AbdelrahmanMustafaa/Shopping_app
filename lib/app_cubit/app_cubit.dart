@@ -98,6 +98,13 @@ class AppCubit extends Cubit<AppState> {
       print('Form is invalid');
     }
   }
+  int curvedIndex = 1 ;
+ int getIndex(index)
+  {
+    curvedIndex = index ;
+    emit(ChangeCIndex());
+    return curvedIndex ;
+  }
 
 
   List<Icon> icons = [

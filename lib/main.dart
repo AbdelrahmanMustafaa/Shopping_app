@@ -37,20 +37,17 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
           return MaterialApp(
-           /* theme: ThemeData(
+            theme: ThemeData(
               colorScheme: ColorScheme.fromSwatch().copyWith(
                 primary: myDarkBLue,
               ),
-            ),*/
+            ),
             darkTheme: ThemeData(
               appBarTheme: AppBarTheme(
                 color: Colors.black
               ) ,
             ),
-            theme: ThemeData(appBarTheme: AppBarTheme(
-              color: Colors.white
-            )),
-            themeMode: cubit.dark == true ?ThemeMode.dark : ThemeMode.light,
+
             debugShowCheckedModeBanner: false,
             home: Sizer(
               builder: (context, orientation, deviceType) {
