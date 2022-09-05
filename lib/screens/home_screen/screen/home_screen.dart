@@ -11,18 +11,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/reusable/my_colors.dart';
 import '../../../app_cubit/app_cubit.dart';
 import '../../../app_cubit/app_state.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     DioHandler.init();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -31,12 +34,27 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
-          int i = 1 ;
+          int i = 0;
           return SafeArea(
             child: DefaultTabController(
-              initialIndex:i,
+              initialIndex: i,
               length: 3,
               child: Scaffold(
+                bottomNavigationBar: TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.factory),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.shopping_cart),
+
+                    ),
+                    Tab(
+                      icon: Icon(Icons.person_add),
+
+                    )
+                  ],
+                ),
                 key: cubit.scaffoldKey,
                 backgroundColor: myLightBlack,
                 endDrawer: Drawer(
@@ -227,24 +245,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                bottomNavigationBar:
-                CurvedNavigationBar(
-                  index: i,
-                  backgroundColor: Colors.white,
-                  color: myLightBlack,
-                  buttonBackgroundColor: myLightBlack,
-                  items: <Widget>[
-                    cubit.icons[0],
-                    cubit.icons[1],
-                    cubit.icons[2],
-                  ],
-                  onTap: (index) {
-                    setState(() {
-                      i = index;
-                      print('$i $index');
-                    });
-                  },
-                ),
                 body: Column(
                   children: [
                     Container(
@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.only(right: 15.0),
                                     child: IconButton(
                                       onPressed: () {
-                                       cubit.scaffoldKey.currentState!
+                                        cubit.scaffoldKey.currentState!
                                             .openEndDrawer();
                                       },
                                       icon: Icon(
@@ -329,8 +329,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             children: [
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  color:
-                                                      Colors.grey.withOpacity(0.4),
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
                                                   borderRadius:
                                                       BorderRadius.circular(20),
                                                 ),
@@ -340,17 +340,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     border: InputBorder.none,
                                                     suffixIcon: Padding(
                                                       padding:
-                                                          const EdgeInsets.all(8.0),
+                                                          const EdgeInsets.all(
+                                                              8.0),
                                                       child: Container(
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: Colors.white,
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  200),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      200),
                                                         ),
                                                         child: Icon(
                                                           Icons.search,
-                                                          color: Colors.grey[600],
+                                                          color:
+                                                              Colors.grey[600],
                                                           size: 25,
                                                         ),
                                                       ),
@@ -424,9 +428,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             ],
                           ),
-                          Text('Test'),
-                          Text('Test'),
-
+                          Expanded(
+                              child: Container(
+                                  color: Colors.grey, child: Text('Test'))),
+                          Expanded(
+                              child: Container(
+                                  color: Colors.amber, child: Text('Test'))),
                         ],
                       ),
                     )
