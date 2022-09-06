@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
-          List testCart = [0,5,6];
+          List testCart = [5,6,9,9,9];
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
           return SafeArea(
             child: DefaultTabController(
@@ -305,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: TabBarView(
                         children: [
-                          Cart (testCart , AssetImage('') ),
+                          Cart (testCart , AssetImage('')  , context),
                           Home(),
                           Love(),
                         ],

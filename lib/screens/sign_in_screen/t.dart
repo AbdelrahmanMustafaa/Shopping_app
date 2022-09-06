@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:shopping_app/reusable/my_colors.dart';
+import 'package:shopping_app/screens/check_out_screen/check_out.dart';
 import 'package:sizer/sizer.dart';
 
 Widget Home() {
@@ -117,7 +119,7 @@ Widget Home() {
   );
 }
 
-Widget Cart(List cartList, AssetImage productImage) {
+Widget Cart(List cartList, AssetImage productImage, BuildContext context) {
   return Column(
     children: [
       Expanded(
@@ -151,7 +153,7 @@ Widget Cart(List cartList, AssetImage productImage) {
                             ),
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: 10,
+                            itemCount: cartList.length,
                             itemBuilder: (context, index) => Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -251,13 +253,54 @@ Widget Cart(List cartList, AssetImage productImage) {
                               ],
                             ),
                           ),
-                          Container(
-                              child: MaterialButton(
-                            onPressed: () {
-                              print('chek out');
-                            },
-                            color: Colors.grey,
-                          ))
+                          // button complete order
+                          SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(top: 20, right: 10),
+                                    padding: EdgeInsets.all(10),
+                                    width: 30.w,
+                                    color: myLightBlack,
+                                    child: Center(
+                                      child: Text(
+                                        'EGP 0.0',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.sp),
+                                      ),
+                                    )),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Check_out(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 20, left: 10),
+                                    padding: EdgeInsets.all(10),
+                                    width: 30.w,
+                                    color: myLightBlack,
+                                    child: Center(
+                                      child: Text(
+                                        'Check Out',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.sp),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
