@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
-          List testCart = [5,6,9,9,9];
+          List testCart = [5];
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
           return SafeArea(
             child: DefaultTabController(
@@ -47,13 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       icon: Icon(Icons.shopping_cart),
                       child: Text('Cart'),
                       height: 7.h,
-
                     ),
                     Tab(
                       icon: Icon(Icons.home),
                       height: 7.h,
                       text: 'Home',
-
                     ),
                     Tab(
                       icon: Icon(Iconsax.heart5),
@@ -71,179 +69,179 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  // navigate to profile page
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 35,
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 40,
-                                        color: myLightBlack,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    // navigate to profile page
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 35,
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 40,
+                                          color: myLightBlack,
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Profile Name',
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                          Text(
-                                            'Email@Email.com',
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.center,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'Profile Name',
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                            Text(
+                                              'Email@Email.com',
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
-                              ListTile(
-                                title: Text(
-                                  'My Orders',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16.sp),
+                                SizedBox(
+                                  height: 5.h,
                                 ),
-                                leading: Icon(
-                                  Icons.shopping_cart,
-                                  color: Colors.grey,
+                                ListTile(
+                                  title: Text(
+                                    'My Orders',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  leading: Icon(
+                                    Icons.shopping_cart,
+                                    color: Colors.grey,
+                                  ),
+                                  onTap: () {
+                                    // navegate to cart
+                                    print('Cart Screen');
+                                  },
                                 ),
-                                onTap: () {
-                                  // navegate to cart
-                                  print('Cart Screen');
-                                },
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              ListTile(
-                                title: Text(
-                                  'My Wish List',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16.sp),
+                                SizedBox(
+                                  height: 1.h,
                                 ),
-                                leading: Icon(
-                                  Iconsax.heart5,
-                                  color: Colors.grey,
+                                ListTile(
+                                  title: Text(
+                                    'My Wish List',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  leading: Icon(
+                                    Iconsax.heart5,
+                                    color: Colors.grey,
+                                  ),
+                                  onTap: () {
+                                    // navegate to wish list
+                                    print('Wish List');
+                                  },
                                 ),
-                                onTap: () {
-                                  // navegate to wish list
-                                  print('Wish List');
-                                },
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              ListTile(
-                                title: Text(
-                                  'Settings',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16.sp),
+                                SizedBox(
+                                  height: 1.h,
                                 ),
-                                leading: Icon(
-                                  Icons.settings,
-                                  color: Colors.grey,
+                                ListTile(
+                                  title: Text(
+                                    'Settings',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  leading: Icon(
+                                    Icons.settings,
+                                    color: Colors.grey,
+                                  ),
+                                  onTap: () {
+                                    print('connect us');
+                                  },
                                 ),
-                                onTap: () {
-                                  print('connect us');
-                                },
-                              ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
-                              ListTile(
-                                title: Text(
-                                  'Log out',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16.sp),
+                                SizedBox(
+                                  height: 5.h,
                                 ),
-                                leading: Icon(
-                                  Icons.arrow_back_rounded,
-                                  color: Colors.grey,
+                                ListTile(
+                                  title: Text(
+                                    'Log out',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16.sp),
+                                  ),
+                                  leading: Icon(
+                                    Icons.arrow_back_rounded,
+                                    color: Colors.grey,
+                                  ),
+                                  onTap: () {
+                                    // log out
+                                  },
                                 ),
-                                onTap: () {
-                                  // log out
-                                },
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(15),
                           width: double.infinity,
                           height: 10.h,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              IconButton(
-                                onPressed: () {
+                              InkWell(
+                                onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) {
-                                        return Connect_Us();
-                                      },
-                                    ),
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.wechat_outlined,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
-                              ),
-                              MaterialButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return WebView1(cubit.linkedIn);
-                                      },
+                                      builder: (context) =>
+                                          WebView1(cubit.whatsApp),
                                     ),
                                   );
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.all(16),
-                                  decoration:
-                                      BoxDecoration(color: Colors.blueAccent),
-                                  child: Text(
-                                    'in',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14.sp),
-                                  ),
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'images/whatsapp.png'))),
+                                  width: 12.w,
+                                  height: 7.h,
                                 ),
                               ),
-                              Container(
-                                decoration: BoxDecoration(
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          WebView1(cubit.linkedIn),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 8),
+                                  height: 7.h,
+                                  width: 15.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
                                     image: DecorationImage(
-                                        image:
-                                            AssetImage('images/whatsapp.png'))),
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                        'images/linkedin-logo.png',
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -305,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: TabBarView(
                         children: [
-                          Cart (testCart , AssetImage('')  , context),
+                          Cart(testCart, AssetImage(''), context),
                           Home(),
                           Love(),
                         ],

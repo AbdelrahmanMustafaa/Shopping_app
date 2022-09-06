@@ -190,12 +190,13 @@ Widget Cart(List cartList, AssetImage productImage, BuildContext context) {
                                           width: 8.w,
                                         ),
                                         IconButton(
+
                                           onPressed: () {
-                                            //Add to love Screen from cart Screen
+                                            //remove from cart
                                             print(
-                                                'Add to love Screen from cart Screen');
+                                                'remove from cart');
                                           },
-                                          icon: Icon(Iconsax.heart4),
+                                          icon: Icon(Icons.remove_shopping_cart_outlined),
                                         )
                                       ],
                                     ),
@@ -218,7 +219,8 @@ Widget Cart(List cartList, AssetImage productImage, BuildContext context) {
                                               color:
                                                   Colors.grey.withOpacity(0.5),
                                               borderRadius:
-                                                  BorderRadius.circular(100)),
+                                                  BorderRadius.circular(100),
+                                          ),
                                           child: Row(
                                             children: [
                                               IconButton(
