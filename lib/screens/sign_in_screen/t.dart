@@ -125,6 +125,9 @@ Widget Cart(List cartList, AssetImage productImage, BuildContext context) {
       Expanded(
         child: Container(
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(80)
+            ),
             image: DecorationImage(
                 fit: BoxFit.cover,
                 image: cartList.isEmpty

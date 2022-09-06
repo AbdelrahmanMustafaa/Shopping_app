@@ -14,6 +14,7 @@ import 'package:shopping_app/test.dart';
 import 'package:sizer/sizer.dart';
 import 'app_cubit/app_cubit.dart';
 import 'app_cubit/observer/observer.dart';
+import 'screens/profile_screen/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

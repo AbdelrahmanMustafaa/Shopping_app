@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:shopping_app/api_model/api_handler.dart';
 import 'package:shopping_app/screens/connect_us/connect_us.dart';
 import 'package:shopping_app/screens/connect_us/web_view.dart';
+import 'package:shopping_app/screens/profile_screen/profile.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,29 +36,32 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           List testCart = [5];
+          List w = [
+            Cart(testCart, AssetImage(''), context),
+            Home(),
+            Cart(testCart, AssetImage(''), context),
+            Love(),
+          ];
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
           return SafeArea(
             child: DefaultTabController(
               initialIndex: 1,
               length: 3,
               child: Scaffold(
-                bottomNavigationBar: TabBar(
-                  tabs: [
-                    Tab(
-                      icon: Icon(Icons.shopping_cart),
-                      child: Text('Cart'),
-                      height: 7.h,
-                    ),
-                    Tab(
-                      icon: Icon(Icons.home),
-                      height: 7.h,
-                      text: 'Home',
-                    ),
-                    Tab(
-                      icon: Icon(Iconsax.heart5),
-                      text: 'Loved Items',
-                      height: 7.h,
-                    )
+                bottomNavigationBar: CurvedNavigationBar(
+                  index: cubit.getI(),
+                  onTap: (index) {
+                    print('on tab');
+                    setState(() {});
+                    cubit.setI(index);
+                  },
+                  buttonBackgroundColor: myLightBlack,
+                  color: myLightBlack,
+                  backgroundColor: Colors.white,
+                  items: [
+                    cubit.icons[0],
+                    cubit.icons[1],
+                    cubit.icons[2],
                   ],
                 ),
                 key: cubit.scaffoldKey,
@@ -74,6 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Profile()));
                                     // navigate to profile page
                                   },
                                   child: Row(
@@ -132,7 +140,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.grey,
                                   ),
                                   onTap: () {
-                                    // navegate to cart
+                                    setState(() {
+                                      cubit.setI(0);
+                                      Navigator.pop(context);
+                                    });
                                     print('Cart Screen');
                                   },
                                 ),
@@ -150,7 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.grey,
                                   ),
                                   onTap: () {
-                                    // navegate to wish list
+                                    setState(() {
+                                      cubit.setI(2);
+                                      Navigator.pop(context);
+                                    });
                                     print('Wish List');
                                   },
                                 ),
@@ -211,9 +225,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'images/whatsapp.png'))),
+                                    image: DecorationImage(
+                                      image: AssetImage('images/whatsapp.png'),
+                                    ),
+                                  ),
                                   width: 12.w,
                                   height: 7.h,
                                 ),
@@ -301,13 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 1.h,
                     ),
                     Expanded(
-                      child: TabBarView(
-                        children: [
-                          Cart(testCart, AssetImage(''), context),
-                          Home(),
-                          Love(),
-                        ],
-                      ),
+                      child: w[cubit.getI()],
                     )
                   ],
                 ),

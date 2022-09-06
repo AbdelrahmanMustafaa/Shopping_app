@@ -18,7 +18,30 @@ class AppCubit extends Cubit<AppState> {
   factory AppCubit()=>_instance ;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool enabled = false;
 
+  changeToEnabled()
+  {
+    enabled = true ;
+    emit(ChangeEnabledState());
+  }
+
+  changeToUnEnabled()
+  {
+    enabled = false ;
+    emit(ChangeEnabledState());
+  }
+
+
+  int _i = 1;
+  setI (int x)
+  {
+    _i = x ;
+  }
+ int getI ()
+  {
+    return _i ;
+  }
 
   bool dark= false ;
   changDarkMode ()

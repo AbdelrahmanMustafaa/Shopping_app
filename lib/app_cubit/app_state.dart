@@ -23,3 +23,5 @@ class GetInitPageState extends AppState{}
 class ChangeDarkModeState extends AppState{}
 
 class ChangeCIndex extends AppState{}
+
+class ChangeEnabledState extends AppState{}
