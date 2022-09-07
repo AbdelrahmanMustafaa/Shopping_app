@@ -35,14 +35,25 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
-          List testCart = [5];
-          List w = [
-            Cart(testCart, AssetImage(''), context),
-            Home(),
-            Cart(testCart, AssetImage(''), context),
-            Love(),
-          ];
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
+          List w = [
+            Cart(
+                cubit.cartList ,
+                AssetImage(''),
+                context ,
+                    (){
+                  setState(() {
+                    cubit.setI(1);
+                  });
+                }
+            ),
+            Home(),
+            Love(cubit.wishList , AssetImage('') , context , (){
+              setState(() {
+                cubit.setI(1);
+              });
+            }),
+          ];
           return SafeArea(
             child: DefaultTabController(
               initialIndex: 1,
@@ -86,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                     children: [
                                       CircleAvatar(
                                         backgroundColor: Colors.white,

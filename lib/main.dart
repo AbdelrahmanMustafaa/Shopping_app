@@ -6,6 +6,7 @@ import 'package:shopping_app/reusable/my_colors.dart';
 import 'package:shopping_app/screens/connect_us/connect_us.dart';
 import 'package:shopping_app/screens/home_screen/screen/home_screen.dart';
 import 'package:shopping_app/screens/product_details/product_details.dart';
+import 'package:shopping_app/screens/setting_screen/setting.dart';
 import 'package:shopping_app/screens/sign_in_screen/screen/sign_in_screen.dart';
 import 'package:shopping_app/screens/sign_up_screen/screen/sign_up_screen.dart';
 import 'package:firebase_core/firebase_core.dart';

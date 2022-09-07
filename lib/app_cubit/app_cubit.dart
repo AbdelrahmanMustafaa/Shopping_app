@@ -15,40 +15,42 @@ class AppCubit extends Cubit<AppState> {
 
   static final AppCubit _instance = AppCubit._internal();
 
-  factory AppCubit()=>_instance ;
+  factory AppCubit() => _instance;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List cartList = [];
+  List wishList = [2];
+  var productImage;
 
   bool enabled = false;
 
-  changeToEnabled()
-  {
-    enabled = true ;
+  changeToEnabled() {
+    enabled = true;
     emit(ChangeEnabledState());
   }
 
-  changeToUnEnabled()
-  {
-    enabled = false ;
+  changeToUnEnabled() {
+    enabled = false;
     emit(ChangeEnabledState());
   }
-
 
   int _i = 1;
-  setI (int x)
-  {
-    _i = x ;
-  }
- int getI ()
-  {
-    return _i ;
+
+  setI(int x) {
+    _i = x;
   }
 
-  bool dark= false ;
-  changDarkMode ()
-  {
-    dark = !dark ;
+  int getI() {
+    return _i;
+  }
+
+  bool dark = false;
+
+  changDarkMode() {
+    dark = !dark;
     emit(ChangeDarkModeState());
   }
+
   MyDatabaseHandler databaseHandler = MyDatabaseHandler();
 
   Icon mainIcon = Icon(Icons.visibility);
@@ -121,28 +123,29 @@ class AppCubit extends Cubit<AppState> {
       print('Form is invalid');
     }
   }
-  int curvedIndex = 1 ;
- int getIndex(index)
-  {
-    curvedIndex = index ;
+
+  int curvedIndex = 1;
+
+  int getIndex(index) {
+    curvedIndex = index;
     emit(ChangeCIndex());
-    return curvedIndex ;
+    return curvedIndex;
   }
 
-
   List<Icon> icons = [
-    Icon(Icons.shopping_cart,color: Colors.white,) ,
-    Icon(Icons.home ,color: Colors.white) ,
-    Icon(Iconsax.heart5 ,color: Colors.white) ,
-
+    Icon(
+      Icons.shopping_cart,
+      color: Colors.white,
+    ),
+    Icon(Icons.home, color: Colors.white),
+    Icon(Iconsax.heart5, color: Colors.white),
   ];
 
+  int initPage = 2;
 
-  int initPage = 2 ;
-  getInitPage (int index)
-  {
-    initPage = index ;
-    print ('===========================$initPage $index');
+  getInitPage(int index) {
+    initPage = index;
+    print('===========================$initPage $index');
     emit(GetInitPageState());
   }
 
@@ -186,5 +189,6 @@ class AppCubit extends Cubit<AppState> {
 
   String whatsApp = 'https://wa.me/201020401778';
 
-  String linkedIn = 'https://www.linkedin.com/in/abdelrahman-mostafa-ali-hagag-72580a1b9';
+  String linkedIn =
+      'https://www.linkedin.com/in/abdelrahman-mostafa-ali-hagag-72580a1b9';
 }
