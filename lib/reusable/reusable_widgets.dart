@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'my_colors.dart';
 
-Widget myTextField( {iconButton , bool isPassword = false , var key , required TextEditingController controller  , required BuildContext context} ) {
+Widget myTextField(
+    {iconButton,
+    bool isPassword = false,
+    var key,
+    required TextEditingController controller,
+    required BuildContext context}) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
@@ -11,27 +16,35 @@ Widget myTextField( {iconButton , bool isPassword = false , var key , required T
       validator: (value) {
         if (value!.isEmpty) {
           // show dialog
-          showDialog(context: context, builder: (context){
-            return AlertDialog(
-              backgroundColor: Colors.white,
-              title: Text('Error' , ),
-              content: Text('Some fields are empty'),
-              actions: <Widget>[
-               MaterialButton(color: Colors.red,
-                 onPressed: (){
-                 Navigator.of(context).pop();
-               }, child:const Text('Ok' ,
-                 style: TextStyle(color: Colors.white),
-                 ) , )
-              ],
-            );
-          }
-          );
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  elevation: 0,
+                  backgroundColor: Colors.white,
+                  title: Text(
+                    'Error',
+                  ),
+                  content: Text('Some fields are empty'),
+                  actions: <Widget>[
+                    MaterialButton(
+                      color: Colors.red,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Ok',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                );
+              });
           return null;
         }
         return null;
       },
-      obscureText: isPassword ,
+      obscureText: isPassword,
       decoration: InputDecoration(
         suffixIcon: iconButton,
         border: OutlineInputBorder(
@@ -43,22 +56,19 @@ Widget myTextField( {iconButton , bool isPassword = false , var key , required T
   );
 }
 
-Widget myButton(String text , BuildContext context , function ) {
+Widget myButton(String text, BuildContext context, function) {
   return Container(
     padding: const EdgeInsets.symmetric(
       horizontal: 10,
     ),
-    width: MediaQuery
-        .of(context)
-        .size
-        .width,
+    width: MediaQuery.of(context).size.width,
     child: MaterialButton(
-      onPressed: function ,
+      onPressed: function,
       color: myLightBlack,
       textColor: Colors.white,
-      child:  Text(
+      child: Text(
         text,
-        style:const TextStyle(
+        style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -70,5 +80,5 @@ Widget myButton(String text , BuildContext context , function ) {
         borderRadius: BorderRadius.circular(10),
       ),
     ),
-  ) ;
+  );
 }

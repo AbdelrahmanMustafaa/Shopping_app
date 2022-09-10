@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             home: Sizer(
               builder: (context, orientation, deviceType) {
-                return const HomeScreen();
+                return  SignUpScreen();
               },
             ),
           );

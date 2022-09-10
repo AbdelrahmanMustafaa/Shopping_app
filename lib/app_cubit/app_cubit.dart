@@ -113,13 +113,39 @@ class AppCubit extends Cubit<AppState> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  void validateAndSave(
-      TextEditingController email, TextEditingController password) async {
+  void validateAndSave(TextEditingController email,
+      TextEditingController password, BuildContext context) async {
     final FormState? form = formKey.currentState;
     if (form!.validate()) {
       print('Form is valid');
       await signUp(email, password);
+      emit(ValidateAndSaveSuccess());
     } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              elevation: 0,
+              backgroundColor: Colors.white,
+              title: Text(
+                'Error',
+              ),
+              content: Text('Some fields are empty'),
+              actions: <Widget>[
+                MaterialButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Ok',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            );
+          });
+      emit(ValidateAndSaveError());
       print('Form is invalid');
     }
   }

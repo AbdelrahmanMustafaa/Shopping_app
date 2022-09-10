@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/Database/auth_database.dart';
 import '../../../app_cubit/app_cubit.dart';
 import '../../../app_cubit/app_state.dart';
+import '../../../reusable/my_colors.dart';
 import '../../../reusable/reusable_widgets.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +121,32 @@ class SignUpScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        myTextField(
+                                        // name field
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: Colors.grey[400],
+                                          ),
+                                          child: TextFormField(
                                             controller:
                                                 cubit.signUpNameController,
-                                            context: context),
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                // show dialog
+                                                return 'this field can\'t be empty';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                         const Padding(
                                           padding: EdgeInsets.only(
                                               top: 4, bottom: 4, left: 4),
@@ -138,9 +159,33 @@ class SignUpScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        myTextField(
-                                            controller: emailController,
-                                            context: context),
+                                        // email field
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: Colors.grey[400],
+                                          ),
+                                          child: TextFormField(
+                                            controller:
+                                                cubit.signUpEmailController,
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                // show dialog
+                                                return 'this field can\'t be empty';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                              suffixIcon: Icon(Icons.email),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                         const Padding(
                                           padding: EdgeInsets.only(
                                               top: 4, bottom: 4, left: 4),
@@ -153,28 +198,74 @@ class SignUpScreen extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        myTextField(
-                                            isPassword: cubit.showPassword,
-                                            controller: passwordController,
-                                            iconButton: IconButton(
-                                              icon: cubit.mainIcon,
-                                              onPressed: () {
-                                                cubit.changeEyeIcon();
-                                              },
+                                        // password field
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: Colors.grey[400],
+                                          ),
+                                          child: TextFormField(
+                                            controller:
+                                                cubit.signUpPasswordController,
+                                            validator: (value) {
+                                              if (value!.isEmpty) {
+                                                // show dialog
+                                                return 'this field can\'t be empty';
+                                              }
+                                              return null;
+                                            },
+                                            obscureText: cubit.showPassword,
+                                            decoration: InputDecoration(
+                                              suffixIcon: IconButton(
+                                                icon: cubit.mainIcon,
+                                                onPressed: () {
+                                                  cubit.changeEyeIcon();
+                                                },
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
                                             ),
-                                            context: context),
+                                          ),
+                                        ),
                                         const SizedBox(
                                           height: 70,
                                         ),
-                                        myButton(
-                                          'Sign Up',
-                                          context,
-                                          () {
-                                            cubit.validateAndSave(
-                                           emailController,
-                                            passwordController,
-                                            );
-                                          },
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: MaterialButton(
+                                            onPressed: () {
+                                              cubit.validateAndSave(
+                                                  cubit
+                                                      .signUpPasswordController,
+                                                  cubit
+                                                      .signUpPasswordController,
+                                                  context);
+                                            },
+                                            color: myLightBlack,
+                                            textColor: Colors.white,
+                                            child: Text(
+                                              'Sign Up',
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 15,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),

@@ -14,6 +14,10 @@ class SignUpSuccess extends AppState {}
 
 class SignUpError extends AppState {}
 
+class ValidateAndSaveSuccess extends AppState{}
+
+class ValidateAndSaveError extends AppState{}
+
 class SignInSuccess extends AppState {}
 
 class SignInError extends AppState {}
