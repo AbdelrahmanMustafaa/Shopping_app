@@ -1,5 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
@@ -7,7 +8,10 @@ import 'package:shopping_app/Database/auth_database.dart';
 import 'package:shopping_app/api_model/api_handler.dart';
 import 'package:shopping_app/api_model/products_model.dart';
 import 'package:shopping_app/reusable/my_colors.dart';
+import 'package:shopping_app/screens/home_screen/screen/home_screen.dart';
+import 'package:sizer/sizer.dart';
 
+import '../screens/sign_in_screen/screen/sign_in_screen.dart';
 import 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -79,23 +83,74 @@ class AppCubit extends Cubit<AppState> {
   TextEditingController signUpEmailController = TextEditingController();
   TextEditingController signUpPasswordController = TextEditingController();
 
+  bool validate = false;
+  bool success = false;
+  String? errorMessage;
+
   signUp(TextEditingController emailController,
-      TextEditingController passwordController) {
+      TextEditingController passwordController, BuildContext context) async {
     try {
       print('========================================================');
       print('signUp in cubit');
-      databaseHandler.signUpAuth(emailController.text, passwordController.text);
+      FirebaseAuth auth = FirebaseAuth.instance;
+      UserCredential response = await auth.createUserWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+
       emit(SignUpSuccess());
-    } catch (e) {
-      print('========================================================');
-      print('signUp in cubit error');
-      print(e.toString());
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration:BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage('images/pattern white background .png')
+              )
+            ) ,
+            width: 70.w,
+            height: 30.h,
+            child: Center(child: CircularProgressIndicator(
+              color: myLightBlack,
+            )),
+          );
+        },
+      );
+      Future.delayed(Duration (seconds: 2)   , (){
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignInScreen()));
+      });
+
+      return response;
+    } on FirebaseException catch (e) {
+      if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Weak Password'),
+        ));
+      } else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('email-already-in-use'),
+        ));
+      } else if (e.code == 'invalid-email') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('invalid-email'),
+        ));
+      } else {
+        print(e);
+        print('Everything is okay');
+      }
       emit(SignUpError());
+      print('on exception');
+      print(e.code);
+      print(e.toString());
     }
   }
 
   TextEditingController signInEmailController = TextEditingController();
   TextEditingController signInPasswordController = TextEditingController();
+
+  signInUsingEmail(email, password) {
+    MyDatabaseHandler.instance.signInAuth(email.text, password.text);
+  }
 
   signInAnonymously() {
     try {
@@ -111,40 +166,45 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  void validateAndSave(TextEditingController email,
-      TextEditingController password, BuildContext context) async {
-    final FormState? form = formKey.currentState;
-    if (form!.validate()) {
-      print('Form is valid');
-      await signUp(email, password);
+  void validateAndSave(BuildContext context, TextEditingController name,
+      TextEditingController email, TextEditingController password) async {
+    if (email.text.isNotEmpty&& name.text.isNotEmpty && password.text.isNotEmpty) {
+      print(email.text.isEmpty);
+      print(name.text.isEmpty);
+      print(password.text.isEmpty);
+      validate = true;
       emit(ValidateAndSaveSuccess());
+
     } else {
       showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              title: Text(
-                'Error',
-              ),
-              content: Text('Some fields are empty'),
-              actions: <Widget>[
-                MaterialButton(
-                  color: Colors.red,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Ok',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
-            );
-          });
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: Text(
+              'Error',
+            ),
+            content: Text('Please check your fields well'),
+            actions: <Widget>[
+              MaterialButton(
+                color: Colors.red,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Ok',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            ],
+          );
+        },
+      );
+      validate = false;
+      print(validate);
       emit(ValidateAndSaveError());
       print('Form is invalid');
     }

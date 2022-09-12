@@ -29,3 +29,11 @@ class ChangeDarkModeState extends AppState{}
 class ChangeCIndex extends AppState{}
 
 class ChangeEnabledState extends AppState{}
+
+class GetErrorMessage extends AppState{}
+
+class GetSuccess extends AppState{}
+
+class SetSuccess extends AppState{}
+
+class SetErrorMessage extends AppState{}

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/app_cubit/app_state.dart';
-import 'package:shopping_app/app_cubit/app_state.dart';
 import 'package:shopping_app/reusable/my_colors.dart';
 import 'package:shopping_app/screens/connect_us/connect_us.dart';
 import 'package:shopping_app/screens/home_screen/screen/home_screen.dart';
@@ -28,7 +27,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -49,11 +47,10 @@ class MyApp extends StatelessWidget {
                 color: Colors.black
               ) ,
             ),
-
             debugShowCheckedModeBanner: false,
             home: Sizer(
               builder: (context, orientation, deviceType) {
-                return  SignUpScreen();
+                return  SignInScreen();
               },
             ),
           );

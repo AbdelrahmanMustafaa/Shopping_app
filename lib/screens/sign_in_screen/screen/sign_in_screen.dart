@@ -4,6 +4,7 @@ import 'package:shopping_app/reusable/reusable_widgets.dart';
 
 import '../../../app_cubit/app_cubit.dart';
 import '../../../app_cubit/app_state.dart';
+import '../../../reusable/my_colors.dart';
 import '../../sign_up_screen/screen/sign_up_screen.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -92,10 +93,58 @@ class SignInScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  myTextField(
-                                      context: context,
-                                    controller:cubit.signInEmailController
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.grey[400],
+                                    ),
+                                    child: TextFormField(
+                                      controller: cubit.signInEmailController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          // show dialog
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  elevation: 0,
+                                                  backgroundColor: Colors.white,
+                                                  title: Text(
+                                                    'Error',
+                                                  ),
+                                                  content: Text(
+                                                      'Some fields are empty'),
+                                                  actions: <Widget>[
+                                                    MaterialButton(
+                                                      color: Colors.red,
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'Ok',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                );
+                                              });
+                                          return null;
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        suffixIcon: Icon(Icons.email),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                    ),
                                   ),
+
                                   const Padding(
                                     padding: EdgeInsets.only(
                                         top: 4, bottom: 4, left: 4),
@@ -109,25 +158,95 @@ class SignInScreen extends StatelessWidget {
                                     ),
                                   ),
                                   // password field
-                                  myTextField(
-                                    // password field
-                                    controller: cubit.signInPasswordController,
-                                       context: context,
-
-                                  isPassword: cubit.showPassword,
-                                    iconButton: IconButton(
-                                      icon: cubit.mainIcon,
-                                      onPressed: () {
-                                        cubit.changeEyeIcon();
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.grey[400],
+                                    ),
+                                    child: TextFormField(
+                                      controller:
+                                          cubit.signInPasswordController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          // show dialog
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  elevation: 0,
+                                                  backgroundColor: Colors.white,
+                                                  title: Text(
+                                                    'Error',
+                                                  ),
+                                                  content: Text(
+                                                      'Some fields are empty'),
+                                                  actions: <Widget>[
+                                                    MaterialButton(
+                                                      color: Colors.red,
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'Ok',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                );
+                                              });
+                                          return null;
+                                        }
+                                        return null;
                                       },
+                                      obscureText: cubit.showPassword,
+                                      decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                          onPressed: () {
+                                            cubit.changeEyeIcon();
+                                          },
+                                          icon: cubit.mainIcon,
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  myButton('SIGN IN', context, () {
-                                    cubit.signInAnonymously();
-                                  }
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: MaterialButton(
+                                      onPressed: () {
+                                        cubit.signInUsingEmail(
+                                            cubit.signInEmailController,
+                                            cubit.signInPasswordController);
+                                        print('on pressed');
+                                      },
+                                      color: myLightBlack,
+                                      textColor: Colors.white,
+                                      child: Text(
+                                        'Sign In',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 15,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 30,
@@ -135,12 +254,14 @@ class SignInScreen extends StatelessWidget {
                                   Center(
                                     child: MaterialButton(
                                       onPressed: () {},
-                                      child: const Text('Forgot Password?',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          )),
+                                      child: const Text(
+                                        'Forgot Password?',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Row(
@@ -161,7 +282,7 @@ class SignInScreen extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                   SignUpScreen(),
+                                                  SignUpScreen(),
                                             ),
                                           );
                                         },
