@@ -261,7 +261,10 @@ class SignInScreen extends StatelessWidget {
                                   ),
                                   Center(
                                     child: MaterialButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        cubit.forgetPassword();
+
+                                      },
                                       child: const Text(
                                         'Forgot Password?',
                                         style: TextStyle(

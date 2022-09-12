@@ -422,5 +422,11 @@ async  {
       }
   }
 
+  forgetPassword()
+ async {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: 'abdelrahmancoin3@gmail.com');
+
+  }
 
 }
