@@ -22,11 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    DioHandler.init();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
+          GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
           List w = [
             Cart(
                 cubit.cartList ,
@@ -75,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     cubit.icons[2],
                   ],
                 ),
-                key: cubit.scaffoldKey,
+                key: scaffoldKey,
                 backgroundColor: myLightBlack,
                 endDrawer: Drawer(
                   backgroundColor: myLightBlack.withOpacity(0.95),
@@ -210,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.grey,
                                   ),
                                   onTap: () {
-                                    // log out
+                                    cubit.signOut(context);
                                   },
                                 ),
                               ],
@@ -306,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.only(right: 15.0),
                                     child: IconButton(
                                       onPressed: () {
-                                        cubit.scaffoldKey.currentState!
+                                        scaffoldKey.currentState!
                                             .openEndDrawer();
                                       },
                                       icon: Icon(

@@ -241,16 +241,16 @@ class SignUpScreen extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width,
                                       child: MaterialButton(
                                         onPressed: () {
-                                          cubit.validateAndSave(
+                                          cubit.SignUpValidateAndSave(
                                               context,
                                               cubit.signUpNameController,
                                               cubit.signUpEmailController,
                                               cubit.signUpPasswordController);
-                                          print(cubit.validate);
+                                          print(cubit.signUpValidate);
                                           print(
                                               '==================------------=========================');
-                                          if (cubit.validate == true) {
-                                            print(cubit.validate);
+                                          if (cubit.signUpValidate == true) {
+                                            print(cubit.signUpValidate);
                                             print('sign up in screen');
                                             cubit.signUp(
                                                 cubit.signUpEmailController,

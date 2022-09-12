@@ -12,9 +12,11 @@ class MyDatabaseHandler {
       FirebaseAuth auth = FirebaseAuth.instance;
       UserCredential response = await auth.signInWithEmailAndPassword(
           email: email, password: password);
+
       return response;
     } catch (e) {
-      print(e.toString());
+      print('=======================================');
+      print(e);
       return null;
     }
   }

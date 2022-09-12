@@ -20,7 +20,6 @@ class AppCubit extends Cubit<AppState> {
   static final AppCubit _instance = AppCubit._internal();
 
   factory AppCubit() => _instance;
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   List cartList = [];
   List wishList = [2];
@@ -83,7 +82,7 @@ class AppCubit extends Cubit<AppState> {
   TextEditingController signUpEmailController = TextEditingController();
   TextEditingController signUpPasswordController = TextEditingController();
 
-  bool validate = false;
+  bool signUpValidate = false;
   bool success = false;
   String? errorMessage;
 
@@ -101,21 +100,20 @@ class AppCubit extends Cubit<AppState> {
         context: context,
         builder: (context) {
           return Container(
-            decoration:BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('images/pattern white background .png')
-              )
-            ) ,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('images/pattern white background .png'))),
             width: 70.w,
             height: 30.h,
-            child: Center(child: CircularProgressIndicator(
+            child: Center(
+                child: CircularProgressIndicator(
               color: myLightBlack,
             )),
           );
         },
       );
-      Future.delayed(Duration (seconds: 2)   , (){
+      Future.delayed(Duration(seconds: 2), () {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SignInScreen()));
       });
@@ -148,16 +146,23 @@ class AppCubit extends Cubit<AppState> {
   TextEditingController signInEmailController = TextEditingController();
   TextEditingController signInPasswordController = TextEditingController();
 
-  signInUsingEmail(email, password) {
+  /*signInUsingEmail(email, password) {
     MyDatabaseHandler.instance.signInAuth(email.text, password.text);
-  }
+  }*/
 
-  signInAnonymously() {
+  signInAnonymously(context) {
     try {
       print('========================================================');
       print('signInAnonymously in cubit');
       databaseHandler.signInAnonymously();
       emit(SignInSuccess());
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              HomeScreen(),
+        ),
+      );
     } catch (e) {
       print('========================================================');
       print('signInAnonymously in cubit error');
@@ -168,15 +173,16 @@ class AppCubit extends Cubit<AppState> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  void validateAndSave(BuildContext context, TextEditingController name,
+  void SignUpValidateAndSave(BuildContext context, TextEditingController name,
       TextEditingController email, TextEditingController password) async {
-    if (email.text.isNotEmpty&& name.text.isNotEmpty && password.text.isNotEmpty) {
+    if (email.text.isNotEmpty &&
+        name.text.isNotEmpty &&
+        password.text.isNotEmpty) {
       print(email.text.isEmpty);
       print(name.text.isEmpty);
       print(password.text.isEmpty);
-      validate = true;
+      signUpValidate = true;
       emit(ValidateAndSaveSuccess());
-
     } else {
       showDialog(
         context: context,
@@ -203,8 +209,50 @@ class AppCubit extends Cubit<AppState> {
           );
         },
       );
-      validate = false;
-      print(validate);
+      signUpValidate = false;
+      print(signUpValidate);
+      emit(ValidateAndSaveError());
+      print('Form is invalid');
+    }
+  }
+
+ bool signInValidate = false;
+  void SignInValidateAndSave(BuildContext context, TextEditingController email,
+      TextEditingController password) async {
+    if (email.text.isNotEmpty &&
+        password.text.isNotEmpty) {
+      print(email.text.isEmpty);
+      print(password.text.isEmpty);
+      signInValidate = true;
+      emit(ValidateAndSaveSuccess());
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: Text(
+              'Error',
+            ),
+            content: Text('Please check your fields well'),
+            actions: <Widget>[
+              MaterialButton(
+                color: Colors.red,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Ok',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            ],
+          );
+        },
+      );
+      signInValidate = false;
+      print(signInValidate);
       emit(ValidateAndSaveError());
       print('Form is invalid');
     }
@@ -277,4 +325,102 @@ class AppCubit extends Cubit<AppState> {
 
   String linkedIn =
       'https://www.linkedin.com/in/abdelrahman-mostafa-ali-hagag-72580a1b9';
+
+
+
+  signIn(TextEditingController emailController,
+      TextEditingController passwordController, BuildContext context) async {
+    try {
+      print('========================================================');
+      print('signUp in cubit');
+      FirebaseAuth auth = FirebaseAuth.instance;
+      UserCredential response = await auth.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      emit(SignInSuccess());
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('images/pattern white background .png'))),
+            width: 70.w,
+            height: 30.h,
+            child: Center(
+                child: CircularProgressIndicator(
+                  color: myLightBlack,
+                )),
+          );
+        },
+      );
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      });
+      return response;
+    } on FirebaseException catch (e) {
+      print(e.code);
+      if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Weak Password'),
+        ));
+      } else if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('user-not-found'),
+        ));
+      }else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('wrong-password'),
+        ));
+      } else if (e.code == 'invalid-email') {
+        print(e.code);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('invalid-email'),
+        ));
+      } else {
+        print(e);
+        print('Everything is okay');
+      }
+      emit(SignInError());
+      print('on exception');
+      print(e.code);
+      print(e.toString());
+    }
+  }
+
+  signOut(context)
+async  {
+    print(FirebaseAuth.instance.currentUser);
+    await FirebaseAuth.instance.signOut();
+    print(FirebaseAuth.instance.currentUser);
+    print('signOut');
+    emit(SignOutState());
+    if(FirebaseAuth.instance.currentUser == null)
+      {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('images/pattern white background .png'))),
+              width: 70.w,
+              height: 30.h,
+              child: Center(
+                  child: CircularProgressIndicator(
+                    color: myLightBlack,
+                  )),
+            );
+          },
+        );
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SignInScreen()));
+        });
+      }
+  }
+
+
 }

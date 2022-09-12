@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/reusable/reusable_widgets.dart';
+import 'package:shopping_app/screens/home_screen/screen/home_screen.dart';
 
 import '../../../app_cubit/app_cubit.dart';
 import '../../../app_cubit/app_state.dart';
@@ -226,9 +227,16 @@ class SignInScreen extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width,
                                     child: MaterialButton(
                                       onPressed: () {
-                                        cubit.signInUsingEmail(
+                                        cubit.SignInValidateAndSave(
+                                            context,
                                             cubit.signInEmailController,
                                             cubit.signInPasswordController);
+                                        if (cubit.signInValidate == true) {
+                                          cubit.signIn(
+                                              cubit.signInEmailController,
+                                              cubit.signInPasswordController , context);
+                                        }
+
                                         print('on pressed');
                                       },
                                       color: myLightBlack,
@@ -289,6 +297,19 @@ class SignInScreen extends StatelessWidget {
                                         child: const Text('SignUp Now'),
                                       )
                                     ],
+                                  ) ,
+                                  Center(
+                                    child: MaterialButton(
+                                      // navigate to sign up screen
+                                      onPressed: () {
+                                        cubit.signInAnonymously(context);
+
+                                      },
+                                      child: const Text('keep going anyway' ,
+                                      style: TextStyle(
+                                        color: Colors.grey
+                                      ),),
+                                    ),
                                   )
                                 ],
                               ),
