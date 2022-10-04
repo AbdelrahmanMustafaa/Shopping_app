@@ -1,17 +1,18 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shopping_app/Database/auth_database.dart';
-import 'package:shopping_app/api_model/api_handler.dart';
 import 'package:shopping_app/api_model/products_model.dart';
 import 'package:shopping_app/reusable/my_colors.dart';
 import 'package:shopping_app/screens/home_screen/screen/home_screen.dart';
+import 'package:shopping_app/screens/sign_up_screen/screen/sign_up_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../screens/sign_in_screen/screen/sign_in_screen.dart';
+import '../test.dart';
 import 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -159,8 +160,7 @@ class AppCubit extends Cubit<AppState> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              HomeScreen(),
+          builder: (context) => HomeScreen(),
         ),
       );
     } catch (e) {
@@ -216,11 +216,11 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
- bool signInValidate = false;
+  bool signInValidate = false;
+
   void SignInValidateAndSave(BuildContext context, TextEditingController email,
       TextEditingController password) async {
-    if (email.text.isNotEmpty &&
-        password.text.isNotEmpty) {
+    if (email.text.isNotEmpty && password.text.isNotEmpty) {
       print(email.text.isEmpty);
       print(password.text.isEmpty);
       signInValidate = true;
@@ -283,13 +283,7 @@ class AppCubit extends Cubit<AppState> {
     emit(GetInitPageState());
   }
 
-  p productsModel = p();
   Response? response;
-
-  getData() async {
-    response = await DioHandler.getData();
-    p.fromJson(response!.data);
-  }
 
   Icon fillHeart = const Icon(
     Iconsax.heart5,
@@ -326,8 +320,6 @@ class AppCubit extends Cubit<AppState> {
   String linkedIn =
       'https://www.linkedin.com/in/abdelrahman-mostafa-ali-hagag-72580a1b9';
 
-
-
   signIn(TextEditingController emailController,
       TextEditingController passwordController, BuildContext context) async {
     try {
@@ -349,14 +341,20 @@ class AppCubit extends Cubit<AppState> {
             height: 30.h,
             child: Center(
                 child: CircularProgressIndicator(
-                  color: myLightBlack,
-                )),
+              color: myLightBlack,
+            )),
           );
         },
       );
       Future.delayed(Duration(seconds: 2), () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
+        emailController.clear();
+        passwordController.clear();
       });
       return response;
     } on FirebaseException catch (e) {
@@ -369,7 +367,7 @@ class AppCubit extends Cubit<AppState> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('user-not-found'),
         ));
-      }else if (e.code == 'wrong-password') {
+      } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('wrong-password'),
         ));
@@ -389,44 +387,156 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  signOut(context)
-async  {
-    print(FirebaseAuth.instance.currentUser);
-    await FirebaseAuth.instance.signOut();
+  signOut(context) async {
     print(FirebaseAuth.instance.currentUser);
     print('signOut');
-    emit(SignOutState());
-    if(FirebaseAuth.instance.currentUser == null)
-      {
-        showDialog(
+    if (FirebaseAuth.instance.currentUser!.isAnonymous == false) {
+      emit(SignOutSuccessState());
+      await FirebaseAuth.instance.signOut();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('images/pattern white background .png'))),
+            width: 70.w,
+            height: 30.h,
+            child: Center(
+                child: CircularProgressIndicator(
+              color: myLightBlack,
+            )),
+          );
+        },
+      );
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignInScreen()));
+      });
+    } else if (FirebaseAuth.instance.currentUser!.isAnonymous) {
+      showDialog(
           context: context,
           builder: (context) {
-            return Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('images/pattern white background .png'))),
-              width: 70.w,
-              height: 30.h,
-              child: Center(
-                  child: CircularProgressIndicator(
-                    color: myLightBlack,
-                  )),
+            return AlertDialog(
+              elevation: 0,
+              backgroundColor: Colors.white,
+              title: Text(
+                'Should to login',
+              ),
+              content: Text('you didn\' login using email'),
+              actions: <Widget>[
+                MaterialButton(
+                  color: myLightBlack,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignUpScreen()));
+                  },
+                  child: const Text(
+                    'SignUp',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                MaterialButton(
+                  color: myLightBlack,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignInScreen()));
+                  },
+                  child: const Text(
+                    'SignIn',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             );
-          },
+          });
+    }
+  }
+
+  forgetPassword(TextEditingController email, context) async {
+    try {
+      print('reset password!!');
+      print(email.text);
+
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('try to login again')));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignInScreen()));
+      emit(ForgetPasswordSuccess());
+    } on FirebaseException catch (e) {
+      print('Error');
+      print(e.code);
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('this email not found'),
+          ),
         );
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignInScreen()));
-        });
+      } else if (e.code == 'invalid-email') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid email'),
+          ),
+        );
+      } else if (e.code == 'unknown') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('please check your email again'),
+          ),
+        );
       }
+    }
   }
 
-  forgetPassword()
- async {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: 'abdelrahmancoin3@gmail.com');
+  Map<String, dynamic>? data;
+  dynamic quantity2;
 
+  dynamic size;
+
+  dynamic sizes;
+
+  dynamic color;
+
+  dynamic rate;
+
+  dynamic colors;
+
+  ProductModel? productModel;
+
+  List? s;
+
+  getData() async {
+    Future<DocumentSnapshot<Map<String, dynamic>>> users = FirebaseFirestore
+        .instance
+        .collection('Products')
+        .doc('women')
+        .collection('pants')
+        .doc('pants')
+        .get();
+    DocumentSnapshot<Map<String, dynamic>> snap = await users;
+    data = snap['black'];
+    List keys = snap.data()!.keys.toList();
+    print(keys);
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    quantity2 = snap['black']['size']['38']['quantity'];
+    rate = snap['black']['rate'];
+    size = snap['black']['size'];
+    color = snap['black']['size']['38']['quantity'];
+    colors = snap['black']['size']['38']['quantity'];
+    sizes = snap['black']['size']['38']['quantity'];
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+/*
+    productModel = ProductModel.fromJson(quantity2, size, sizes, rate, color, colors);
+*/
+    /* list.forEach((element) {
+      print(element.id);
+      print('=====================================================');
+    });*/
   }
-
 }

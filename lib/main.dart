@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/app_cubit/app_state.dart';
@@ -5,10 +6,10 @@ import 'package:shopping_app/reusable/my_colors.dart';
 import 'package:shopping_app/screens/connect_us/connect_us.dart';
 import 'package:shopping_app/screens/home_screen/screen/home_screen.dart';
 import 'package:shopping_app/screens/product_details/product_details.dart';
+import 'package:shopping_app/screens/reset_password/reset_password_screen.dart';
 import 'package:shopping_app/screens/setting_screen/setting.dart';
 import 'package:shopping_app/screens/sign_in_screen/screen/sign_in_screen.dart';
 import 'package:shopping_app/screens/sign_up_screen/screen/sign_up_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shopping_app/screens/splash_screen/splash_screen.dart';
 import 'package:shopping_app/test.dart';
 import 'package:sizer/sizer.dart';
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             home: Sizer(
               builder: (context, orientation, deviceType) {
-                return  SignInScreen();
+                return  HomeScreen();
               },
             ),
           );

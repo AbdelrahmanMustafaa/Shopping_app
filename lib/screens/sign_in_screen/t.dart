@@ -7,7 +7,7 @@ import 'package:sizer/sizer.dart';
 import '../../app_cubit/app_cubit.dart';
 import '../../app_cubit/app_state.dart';
 
-Widget Home() {
+Widget Home(Future getData) {
   return Column(
     children: [
       Expanded(
@@ -95,18 +95,21 @@ Widget Home() {
                       ),
                       Column(
                         children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 30,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Text(
-                                'Hello',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.sp),
-                              );
-                            },
+                          FutureBuilder(
+                            future:getData ,
+                          builder: (context , snapshot)=>ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 1 ,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Text(
+                                  'Hello',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.sp),
+                                );
+                              },
+                            ),
                           )
                         ],
                       ),

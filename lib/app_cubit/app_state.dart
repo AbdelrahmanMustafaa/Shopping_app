@@ -22,7 +22,7 @@ class SignInSuccess extends AppState {}
 
 class SignInError extends AppState {}
 
-class SignOutState extends AppState{}
+class SignOutSuccessState extends AppState{}
 
 class GetInitPageState extends AppState{}
 
@@ -39,3 +39,7 @@ class GetSuccess extends AppState{}
 class SetSuccess extends AppState{}
 
 class SetErrorMessage extends AppState{}
+
+class ForgetPasswordSuccess extends AppState{}
+
+class ForgetPasswordError extends AppState{}

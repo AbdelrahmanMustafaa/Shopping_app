@@ -1,7 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:shopping_app/api_model/api_handler.dart';
-import 'package:shopping_app/screens/connect_us/connect_us.dart';
 import 'package:shopping_app/screens/connect_us/web_view.dart';
 import 'package:shopping_app/screens/profile_screen/profile.dart';
 import 'package:sizer/sizer.dart';
@@ -10,8 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/reusable/my_colors.dart';
 import '../../../app_cubit/app_cubit.dart';
 import '../../../app_cubit/app_state.dart';
-import '../../product_details/product_details.dart';
-import '../../sign_in_screen/screen/sign_in_screen.dart';
 import '../../sign_in_screen/t.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,6 +18,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<AppCubit>(context).getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +35,132 @@ class _HomeScreenState extends State<HomeScreen> {
           GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
           List w = [
-            Cart(
-                cubit.cartList ,
-                AssetImage(''),
-                context ,
-                    (){
-                  setState(() {
-                    cubit.setI(1);
-                  });
-                }
+            Cart(cubit.cartList, AssetImage(''), context, () {
+              setState(() {
+                cubit.setI(1);
+              });
+            }),
+            Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          'images/pattern white background .png',
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(80),
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  width: 70.w,
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      suffixIcon: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(200),
+                                          ),
+                                          child: Icon(
+                                            Icons.search,
+                                            color: Colors.grey[600],
+                                            size: 25,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 20.h,
+                                        child: ListView.separated(
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          itemCount: 5,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) =>
+                                              Container(
+                                            color: Colors.black,
+                                            width: 40.w,
+                                            height: 20.h,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                Column(
+                                  children: [
+                                    FutureBuilder(
+                                      future: cubit.getData(),
+                                      builder: (context, snapshot) =>
+                                          ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: 1,
+                                        physics:
+                                        const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return Text(
+                                            cubit.size.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.sp),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
-            Home(),
-            Love(cubit.wishList , AssetImage('') , context , (){
+            Love(cubit.wishList, AssetImage(''), context, () {
               setState(() {
                 cubit.setI(1);
               });
@@ -94,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       CircleAvatar(
                                         backgroundColor: Colors.white,
