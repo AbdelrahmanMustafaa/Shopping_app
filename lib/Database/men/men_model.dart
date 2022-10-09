@@ -3,6 +3,7 @@ class Men {
   final Caps caps;
   final Pants pants;
   Men({required this.tShirts , required this.caps , required this.pants});
+
 }
 class TShirts{
   final List<TShirtStyle> tShirts;

@@ -1,3 +1,4 @@
+/*
 class ProductModel {
   List? sizes;
 
@@ -8,3 +9,4 @@ class ProductModel {
   ProductModel({this.sizes, this.quantity, this.colors});
 
 }
+*/

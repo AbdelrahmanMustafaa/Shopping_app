@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shopping_app/Database/auth_database.dart';
-import 'package:shopping_app/api_model/products_model.dart';
+import 'package:shopping_app/Database/modelConstant.dart';
 import 'package:shopping_app/reusable/my_colors.dart';
 import 'package:shopping_app/screens/home_screen/screen/home_screen.dart';
 import 'package:shopping_app/screens/sign_up_screen/screen/sign_up_screen.dart';
@@ -508,29 +508,22 @@ class AppCubit extends Cubit<AppState> {
   dynamic colors;
 
   ProductModel? productModel;
-
-  List? s;
+  List? names;
+  int length = 0;
 
   getData() async {
-    Future<DocumentSnapshot<Map<String, dynamic>>> users = FirebaseFirestore
-        .instance
-        .collection('Products')
-        .doc('women')
-        .collection('pants')
-        .doc('pants')
-        .get();
+    print('===========================================');
+    Future<DocumentSnapshot<Map<String, dynamic>>> users =
+        FirebaseFirestore.instance.collection('Products').doc('children').get();
+
     DocumentSnapshot<Map<String, dynamic>> snap = await users;
-    data = snap['black'];
-    List keys = snap.data()!.keys.toList();
-    print(keys);
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    quantity2 = snap['black']['size']['38']['quantity'];
-    rate = snap['black']['rate'];
-    size = snap['black']['size'];
-    color = snap['black']['size']['38']['quantity'];
-    colors = snap['black']['size']['38']['quantity'];
-    sizes = snap['black']['size']['38']['quantity'];
-    print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    print('snap == ${snap.data()}');
+    names = snap.data()!.keys.toList();
+    print('names == $names');
+    productModel = ProductModel.fromJson(snap.data()! , names![1]);
+    print('products Model : !@@${productModel!.products!.first.id}');
+
+    // return data;
 /*
     productModel = ProductModel.fromJson(quantity2, size, sizes, rate, color, colors);
 */

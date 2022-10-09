@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         shrinkWrap: true,
                                         itemCount: 1,
                                         physics:
-                                        const NeverScrollableScrollPhysics(),
+                                            const NeverScrollableScrollPhysics(),
                                         itemBuilder: (context, index) {
                                           return Text(
                                             cubit.size.toString(),
