@@ -43,3 +43,9 @@ class SetErrorMessage extends AppState{}
 class ForgetPasswordSuccess extends AppState{}
 
 class ForgetPasswordError extends AppState{}
+
+class GetDataLoadingState extends AppState{}
+
+class GetDataSuccessState extends AppState{}
+
+class GetDataErrorState extends AppState{}

@@ -513,24 +513,30 @@ class AppCubit extends Cubit<AppState> {
   List? quantityy;
 
   getData() async {
+    emit(GetDataLoadingState());
     print('===========================================');
     Future<DocumentSnapshot<Map<String, dynamic>>> users =
-        FirebaseFirestore.instance.collection('Products').doc('children').get();
-
+        FirebaseFirestore.instance.collection('Products').doc('children').get().then((value) {
+          emit(GetDataSuccessState());
+          return value;
+        }).catchError((e) {
+          emit(GetDataErrorState());
+          print(e);
+        });
     DocumentSnapshot<Map<String, dynamic>> snap = await users;
     print('snap == ${snap.data()}');
     names = snap.data()!.keys.toList();
     print('names == $names');
     productModel = ProductModel.fromJson(snap.data()!, names![1]);
+    names!.forEach((element) {
+
+    });
     print('products Model : id :${productModel!.products!.first.id}');
-    print(
-        'products Model : discount :${productModel!.products!.first.discount}');
+    print('products Model : discount :${productModel!.products!.first.discount}');
     print(
         'products Model : category :${productModel!.products!.first.category}');
     print('products Model : price :${productModel!.products!.first.price}');
     print('products Model : size :${productModel!.products!.first.sizes}');
-    print(
-        'products Model : size :${productModel!.products!.first.sizes.runtimeType}');
     print(
         '------------------------------------------------------------------------------------');
 
@@ -539,7 +545,7 @@ class AppCubit extends Cubit<AppState> {
     print('sizee == $sizee');
     print('quantityy == $quantityy');
 
-     /*productModel!.products!.first.size!.forEach((key, value) {
+    /*productModel!.products!.first.size!.forEach((key, value) {
       print('key : $key');
       print('value : $value');
 
