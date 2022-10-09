@@ -1,4 +1,3 @@
-/*
 class ProductModel {
   List<p>? products;
   ProductModel(this.products) ;
@@ -59,4 +58,3 @@ class Rating {
     return data;
   }
 }
-*/

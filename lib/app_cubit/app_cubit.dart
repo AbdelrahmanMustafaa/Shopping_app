@@ -509,7 +509,8 @@ class AppCubit extends Cubit<AppState> {
 
   ProductModel? productModel;
   List? names;
-  int length = 0;
+  List? sizee;
+  List? quantityy;
 
   getData() async {
     print('===========================================');
@@ -520,8 +521,30 @@ class AppCubit extends Cubit<AppState> {
     print('snap == ${snap.data()}');
     names = snap.data()!.keys.toList();
     print('names == $names');
-    productModel = ProductModel.fromJson(snap.data()! , names![1]);
-    print('products Model : !@@${productModel!.products!.first.id}');
+    productModel = ProductModel.fromJson(snap.data()!, names![1]);
+    print('products Model : id :${productModel!.products!.first.id}');
+    print(
+        'products Model : discount :${productModel!.products!.first.discount}');
+    print(
+        'products Model : category :${productModel!.products!.first.category}');
+    print('products Model : price :${productModel!.products!.first.price}');
+    print('products Model : size :${productModel!.products!.first.sizes}');
+    print(
+        'products Model : size :${productModel!.products!.first.sizes.runtimeType}');
+    print(
+        '------------------------------------------------------------------------------------');
+
+    sizee = productModel!.products!.first.sizes!.keys.toList();
+    quantityy = productModel!.products!.first.sizes!.values.toList();
+    print('sizee == $sizee');
+    print('quantityy == $quantityy');
+
+     /*productModel!.products!.first.size!.forEach((key, value) {
+      print('key : $key');
+      print('value : $value');
+
+
+    });*/
 
     // return data;
 /*
