@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
@@ -12,7 +13,6 @@ import 'package:shopping_app/screens/sign_up_screen/screen/sign_up_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../screens/sign_in_screen/screen/sign_in_screen.dart';
-import '../test.dart';
 import 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -494,71 +494,68 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  Map<String, dynamic>? data;
-  dynamic quantity2;
-
-  dynamic size;
-
-  dynamic sizes;
-
-  dynamic color;
-
-  dynamic rate;
-
-  dynamic colors;
-
   ProductModel? productModel;
-  List? names;
-  List? sizee;
-  List? quantityy;
+  CollectionReference users = FirebaseFirestore.instance.collection('Products');
+  List<Map> childAllData = [];
 
-  getData() async {
+  getChildrenData() async {
     emit(GetDataLoadingState());
-    print('===========================================');
-    Future<DocumentSnapshot<Map<String, dynamic>>> users =
-        FirebaseFirestore.instance.collection('Products').doc('children').get().then((value) {
-          emit(GetDataSuccessState());
-          return value;
-        }).catchError((e) {
-          emit(GetDataErrorState());
-          print(e);
-        });
-    DocumentSnapshot<Map<String, dynamic>> snap = await users;
-    print('snap == ${snap.data()}');
-    names = snap.data()!.keys.toList();
-    print('names == $names');
-    productModel = ProductModel.fromJson(snap.data()!, names![1]);
-    names!.forEach((element) {
-
+    QuerySnapshot querySnapshot = await users.get().then((value) {
+      emit(GetDataSuccessState());
+      getChildrenImage();
+      return value;
     });
-    print('products Model : id :${productModel!.products!.first.id}');
-    print('products Model : discount :${productModel!.products!.first.discount}');
-    print(
-        'products Model : category :${productModel!.products!.first.category}');
-    print('products Model : price :${productModel!.products!.first.price}');
-    print('products Model : size :${productModel!.products!.first.sizes}');
-    print(
-        '------------------------------------------------------------------------------------');
-
-    sizee = productModel!.products!.first.sizes!.keys.toList();
-    quantityy = productModel!.products!.first.sizes!.values.toList();
-    print('sizee == $sizee');
-    print('quantityy == $quantityy');
-
-    /*productModel!.products!.first.size!.forEach((key, value) {
-      print('key : $key');
-      print('value : $value');
-
-
-    });*/
-
-    // return data;
-/*
-    productModel = ProductModel.fromJson(quantity2, size, sizes, rate, color, colors);
-*/
-    /* list.forEach((element) {
-      print(element.id);
-      print('=====================================================');
-    });*/
+    List<QueryDocumentSnapshot> listdocs = querySnapshot.docs;
+    childAllData.add(listdocs[0].data() as Map);
+    print(childAllData);
   }
+
+  List images =[];
+  String? childrenUrl ;
+  getChildrenImage()async{
+    emit(GetChildImageLoadingState());
+    //get image from firebase storage
+    FirebaseStorage storage = FirebaseStorage.instance;
+    ListResult ref =await storage.ref('children').listAll();
+    print ('****************************************************************************************');
+    ref.items.forEach((element) async {
+      childrenUrl = await element.getDownloadURL().then((value) {
+        emit(GetChildImageSuccessState());
+        return value;
+      }).catchError((onError){
+        emit(GetChildImageErrorState());
+      });
+      images.add(childrenUrl);
+      print(childrenUrl);
+    });
+  }
+
+  List<Map> MenAllData = [];
+
+  getMenData() async {
+    emit(GetDataLoadingState());
+    QuerySnapshot querySnapshot = await users.get().then((value) {
+      emit(GetDataSuccessState());
+      return value;
+    });
+    List<QueryDocumentSnapshot> listdocs = querySnapshot.docs;
+    MenAllData.add(listdocs[0].data() as Map);
+    print(MenAllData);
+  }
+
+  List<Map> WomenAllData = [];
+
+  getWomenData() async {
+    emit(GetDataLoadingState());
+    QuerySnapshot querySnapshot = await users.get().then((value) {
+      emit(GetDataSuccessState());
+      return value;
+    });
+    List<QueryDocumentSnapshot> listdocs = querySnapshot.docs;
+    WomenAllData.add(listdocs[0].data() as Map);
+    print(WomenAllData);
+  }
+
+
+
 }

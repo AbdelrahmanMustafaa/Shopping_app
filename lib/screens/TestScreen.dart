@@ -15,7 +15,7 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
   @override
   void initState() {
-    BlocProvider.of<AppCubit>(context).getData();
+    BlocProvider.of<AppCubit>(context).getChildrenData();
     super.initState();
   }
 
@@ -33,76 +33,82 @@ class _TestScreenState extends State<TestScreen> {
               backgroundColor: myLightBlack,
             ),
             body: FutureBuilder(
-              future: f /*cubit.getData()*/,
+              future: f,
               builder: (context, snapshot) => state.runtimeType ==
-                      GetDataErrorState ? Text('Error')
-                  : state.runtimeType == GetDataSuccessState ? Container(
+                      GetDataErrorState
+                  ? Text('Error')
+                  : state.runtimeType == GetDataSuccessState
+                      ? Container(
                           padding: EdgeInsets.all(8),
                           color: Colors.white,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Center(
-                                  child: GridView.builder(
-                                shrinkWrap: true,
-                                itemCount: cubit.productModel!.products!.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: 1,
-                                ),
-                                itemBuilder: (context, index) => Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
+                                child: GridView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: cubit.childAllData.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: 1,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 20.h,
-                                        width: 40.w,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                cubit.names![index]),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        cubit.names![index],
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        cubit.names![index],
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  itemBuilder: (context, index) =>  Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    cubit.images[index],
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    cubit.childAllData[index]
+                                                        .keys.first,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    cubit.childAllData[index]
+                                                        .keys
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+
                                 ),
-                              )),
+                              ),
                             ],
                           ),
                         )
-                      :state.runtimeType == GetDataLoadingState? Center(child: CircularProgressIndicator(),) : Container(
-                color: Colors.black,
-              ),
+                      : state.runtimeType == GetDataLoadingState
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Container(
+                              color: Colors.black,
+                            ),
             ),
           );
         },

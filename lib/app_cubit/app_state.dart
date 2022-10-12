@@ -49,3 +49,9 @@ class GetDataLoadingState extends AppState{}
 class GetDataSuccessState extends AppState{}
 
 class GetDataErrorState extends AppState{}
+
+class GetChildImageSuccessState extends AppState{}
+
+class GetChildImageErrorState extends AppState{}
+
+class GetChildImageLoadingState extends AppState{}

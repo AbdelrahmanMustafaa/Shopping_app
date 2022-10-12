@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    BlocProvider.of<AppCubit>(context).getData();
+    BlocProvider.of<AppCubit>(context).getChildrenData();
     super.initState();
   }
 
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Column(
                                   children: [
                                     FutureBuilder(
-                                      future: cubit.getData(),
+                                      future: cubit.getChildrenData(),
                                       builder: (context, snapshot) =>
                                           ListView.builder(
                                         shrinkWrap: true,
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const NeverScrollableScrollPhysics(),
                                         itemBuilder: (context, index) {
                                           return Text(
-                                            cubit.size.toString(),
+                                         'Test',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20.sp),

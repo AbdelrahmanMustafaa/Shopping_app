@@ -3,9 +3,9 @@ class ProductModel {
 
   ProductModel(this.products);
 
-  ProductModel.fromJson(dynamic json, String x) {
+  ProductModel.fromJson(dynamic json) {
     products = <p>[];
-    json[x].forEach((e) {
+    json.forEach((e) {
       products!.add(p.fromJson(e));
     });
   }
