@@ -20,7 +20,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    BlocProvider.of<AppCubit>(context).getChildrenData();
+    BlocProvider.of<AppCubit>(context).getChildrenImage();
+    BlocProvider.of<AppCubit>(context).getMenImage();
+    BlocProvider.of<AppCubit>(context).getWomenImage();
+
     super.initState();
   }
 
@@ -107,19 +110,67 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Expanded(
                                       child: Container(
                                         height: 20.h,
-                                        child: ListView.separated(
-                                          separatorBuilder: (context, index) =>
-                                              SizedBox(
-                                            width: 5.w,
-                                          ),
-                                          itemCount: 5,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) =>
+                                        child: ListView(
+                                            children: [
                                               Container(
-                                            color: Colors.black,
-                                            width: 40.w,
-                                            height: 20.h,
-                                          ),
+                                                // make image background
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      '${cubit.childrenImages}',
+                                                    ),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+
+                                                width: 40.w,
+                                                height: 20.h,
+                                              ),
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              Container(
+                                                // make image background
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      '${cubit.menImages}',
+                                                    ),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+
+                                                width: 40.w,
+                                                height: 20.h,
+                                              ),
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              Container(
+                                                // make image background
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      '${cubit.womenImages}',
+                                                    ),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+
+                                                width: 40.w,
+                                                height: 20.h,
+                                              ),
+                                            ],
+                                            scrollDirection: Axis.horizontal,
                                         ),
                                       ),
                                     )
@@ -131,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Column(
                                   children: [
                                     FutureBuilder(
-                                      future: cubit.getChildrenData(),
+                                      future: cubit.futureTest,
                                       builder: (context, snapshot) =>
                                           ListView.builder(
                                         shrinkWrap: true,
@@ -140,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const NeverScrollableScrollPhysics(),
                                         itemBuilder: (context, index) {
                                           return Text(
-                                         'Test',
+                                            'Test',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20.sp),

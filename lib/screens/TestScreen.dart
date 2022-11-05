@@ -15,7 +15,6 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
   @override
   void initState() {
-    BlocProvider.of<AppCubit>(context).getChildrenData();
     super.initState();
   }
 
@@ -55,48 +54,54 @@ class _TestScreenState extends State<TestScreen> {
                                     crossAxisSpacing: 10,
                                     childAspectRatio: 1,
                                   ),
-                                  itemBuilder: (context, index) =>  Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    cubit.images[index],
-                                                  ),
-                                                  fit: BoxFit.cover,
+                                  itemBuilder: (context, index) => state
+                                              .runtimeType ==
+                                          GetChildImageSuccessState
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                cubit.childrenImages!,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                cubit.childAllData[index].keys
+                                                    .first,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              child: Column(
-                                                children: [
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    cubit.childAllData[index]
-                                                        .keys.first,
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    cubit.childAllData[index]
-                                                        .keys
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
+                                              SizedBox(
+                                                height: 5,
                                               ),
-                                            )
-
+                                              Text(
+                                                cubit.childAllData[index].keys
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : state.runtimeType ==
+                                              GetChildImageErrorState
+                                          ? Text('Error')
+                                          : Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
                                 ),
                               ),
                             ],
@@ -107,7 +112,7 @@ class _TestScreenState extends State<TestScreen> {
                               child: CircularProgressIndicator(),
                             )
                           : Container(
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
             ),
           );

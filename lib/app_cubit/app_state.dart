@@ -55,3 +55,15 @@ class GetChildImageSuccessState extends AppState{}
 class GetChildImageErrorState extends AppState{}
 
 class GetChildImageLoadingState extends AppState{}
+
+class GetMenImageLoadingState extends AppState{}
+
+class GetMenImageErrorState extends AppState{}
+
+class GetMenImageSuccessState extends AppState{}
+
+class GetWomenImageLoadingState extends AppState{}
+
+class GetWomenImageErrorState extends AppState{}
+
+class GetWomenImageSuccessState extends AppState{}

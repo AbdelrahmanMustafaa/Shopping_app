@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             home: Sizer(
               builder: (context, orientation, deviceType) {
-                return  TestScreen();
+                return  HomeScreen();
               },
             ),
           );
