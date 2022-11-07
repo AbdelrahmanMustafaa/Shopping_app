@@ -19,6 +19,7 @@ class p {
   int? price;
   String? image;
   double? rate;
+  String? im;
 
   p({
     this.id,
@@ -28,6 +29,7 @@ class p {
     this.image,
     this.price,
     this.rate,
+    this.im
   });
 
   p.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class p {
     image = json['image'];
     rate = json['rating'];
     sizes = json['size'];
+    im = json['image'];
 
   }
 }

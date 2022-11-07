@@ -499,7 +499,7 @@ class AppCubit extends Cubit<AppState> {
   List<Map> childAllData = [];
 
   getChildrenData() async {
-    print ('getChildrenData');
+    print('getChildrenData');
     emit(GetDataLoadingState());
     QuerySnapshot querySnapshot = await users.get().then((value) {
       emit(GetDataSuccessState());
@@ -507,48 +507,58 @@ class AppCubit extends Cubit<AppState> {
     });
     List<QueryDocumentSnapshot> listdocs = querySnapshot.docs;
     childAllData.add(listdocs[0].data() as Map);
-    print ('**********children data**********');
+    print('**********children data**********');
     print(childAllData);
+
   }
 
+  String? childrenImages;
 
-  String? childrenImages ;
-  String? childrenUrl ;
-  getChildrenImage()async{
+  String? childrenUrl;
+
+  getChildrenImage() async {
     emit(GetChildImageLoadingState());
     //get image from firebase storage
     FirebaseStorage storage = FirebaseStorage.instance;
-    ListResult ref =await storage.ref('children').listAll();
-    print ('****************************************************************************************');
+    ListResult ref = await storage.ref('children').listAll();
+    print(
+        '****************************************************************************************');
     ref.items.forEach((element) async {
       childrenUrl = await element.getDownloadURL();
       childrenImages = childrenUrl;
       print(childrenUrl);
     });
-    print (state.runtimeType);
-    childrenImages!.isEmpty ? emit(GetChildImageErrorState()) : emit(GetChildImageSuccessState());
-    print (state.runtimeType); 
+    print(state.runtimeType);
+    childrenImages!.isEmpty
+        ? emit(GetChildImageErrorState())
+        : emit(GetChildImageSuccessState());
+    print(state.runtimeType);
   }
 
   List<Map> menAllData = [];
-  String? menImages ;
-  String? menUrl ;
+  String? menImages;
 
-  getMenImage()async{
+  String? menUrl;
+
+  getMenImage() async {
     emit(GetMenImageLoadingState());
     //get image from firebase storage
     FirebaseStorage storage = FirebaseStorage.instance;
-    ListResult ref =await storage.ref('men').listAll();
-    print ('****************************************************************************************');
+    ListResult ref = await storage.ref('men').listAll();
+    print(
+        '****************************************************************************************');
     ref.items.forEach((element) async {
       menUrl = await element.getDownloadURL();
-      menImages  = menUrl;
+      menImages = menUrl;
       print(menUrl);
     });
-    print (state.runtimeType);
-    menImages!.isEmpty ? emit(GetMenImageErrorState()) : emit(GetMenImageSuccessState());
-    print (state.runtimeType);
+    print(state.runtimeType);
+    menImages!.isEmpty
+        ? emit(GetMenImageErrorState())
+        : emit(GetMenImageSuccessState());
+    print(state.runtimeType);
   }
+
   getMenData() async {
     print('getMenData');
     emit(GetDataLoadingState());
@@ -558,31 +568,36 @@ class AppCubit extends Cubit<AppState> {
     });
     List<QueryDocumentSnapshot> listdocs = querySnapshot.docs;
     menAllData.add(listdocs[1].data() as Map);
-    print ('********** men data**********');
+    print('********** men data**********');
 
     print('Men data : $menAllData');
   }
+
   List<Map> WomenAllData = [];
 
+  String? womenImages;
 
-  String? womenImages ;
-  String? womenUrl ;
+  String? womenUrl;
 
-  getWomenImage()async{
+  getWomenImage() async {
     emit(GetWomenImageLoadingState());
     //get image from firebase storage
     FirebaseStorage storage = FirebaseStorage.instance;
-    ListResult ref =await storage.ref('women').listAll();
-    print ('****************************************************************************************');
+    ListResult ref = await storage.ref('women').listAll();
+    print(
+        '****************************************************************************************');
     ref.items.forEach((element) async {
       womenUrl = await element.getDownloadURL();
-      womenImages  = womenUrl;
+      womenImages = womenUrl;
       print(womenUrl);
     });
-    print (state.runtimeType);
-    womenImages!.isEmpty ? emit(GetWomenImageErrorState()) : emit(GetWomenImageSuccessState());
-    print (state.runtimeType);
+    print(state.runtimeType);
+    womenImages!.isEmpty
+        ? emit(GetWomenImageErrorState())
+        : emit(GetWomenImageSuccessState());
+    print(state.runtimeType);
   }
+
   getWomenData() async {
     emit(GetDataLoadingState());
     QuerySnapshot querySnapshot = await users.get().then((value) {
@@ -591,24 +606,26 @@ class AppCubit extends Cubit<AppState> {
     });
     List<QueryDocumentSnapshot> listdocs = querySnapshot.docs;
     WomenAllData.add(listdocs[2].data() as Map);
-    print ('*************** women data ***************');
+    print('*************** women data ***************');
     print(WomenAllData);
   }
-Future? futureTest ;
 
-  getAllCategoriesImages()async{
+  Future? futureTest;
+
+  getAllCategoriesImages() async {
     await getChildrenImage();
     await getMenImage();
     await getWomenImage();
   }
-List<String>? categoriesImages ;
-  List<String> putCategoriesImages(){
-    categoriesImages!.add(childrenImages!) ;
-    categoriesImages!.add(menImages!) ;
-    categoriesImages!.add(womenImages!) ;
-    print ('categoriesImages : ${categoriesImages!.length}');
-    print (categoriesImages);
-    return categoriesImages! ;
-  }
 
+  List<String>? categoriesImages;
+
+  List<String> putCategoriesImages() {
+    categoriesImages!.add(childrenImages!);
+    categoriesImages!.add(menImages!);
+    categoriesImages!.add(womenImages!);
+    print('categoriesImages : ${categoriesImages!.length}');
+    print(categoriesImages);
+    return categoriesImages!;
+  }
 }
