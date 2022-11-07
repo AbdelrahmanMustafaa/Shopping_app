@@ -503,6 +503,7 @@ class AppCubit extends Cubit<AppState> {
     emit(GetDataLoadingState());
     QuerySnapshot querySnapshot = await users.get().then((value) {
       emit(GetDataSuccessState());
+      print (value.docs);
       return value;
     });
     List<QueryDocumentSnapshot> listdocs = querySnapshot.docs;
