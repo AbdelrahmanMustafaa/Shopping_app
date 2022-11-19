@@ -517,24 +517,39 @@ class AppCubit extends Cubit<AppState> {
   Set? CUrl = {} ;
   Set? ImageNames = {};
   List? Test=[];
+  Map? ImageNaames ;
 
   getCImages() async {
     emit(GetCImageLoadingState());
     //get image from firebase storage
     FirebaseStorage storage = FirebaseStorage.instance;
-    ListResult ref = await storage.ref('children/t shirts').listAll();
+    ListResult ref = await storage.ref('children/t shirts').list();
+    print (ref);
     print('****************************************************************************************');
     print ('children t-shirts images');
     print(ref.items.first.getDownloadURL());
+
+   /* for (int i = 0; i < ref.items.length; i++) {
+      ImageNaames = {'$ref.items[i]': '${ref.items[i].getDownloadURL()}'};
+      print (ImageNaames);
+      print ('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
+      print (ref.items[i].getDownloadURL());
+    }*/
     ref.items.forEach((element) async {
       CUrl!.add(await element.getDownloadURL());
       ImageNames!.add(await element.name.split('.').first);
-      print (ImageNames);
-      print ('3333333333333333333333333333333333333333333333333333333333333${CUrl}');
+      print (ref.items.length);
+      print (ImageNames!.length);
+      print ('333333333333333333333333333333333CURL3333333333333333333333333333${CUrl}');
       CImages = CUrl;
-      print(element.fullPath);
-      print('8745555555555555555555555555555$CUrl');
-      print (CImages!.length);
+    /*  print (ImageNaames!.length);*/
+      for(int i = 0 ; i < CUrl!.length ; i++){
+        print (' aasfasfasfasfasfs  ${ ImageNames!.elementAt(i)}');
+        ImageNaames =  {'${ImageNames!.toList()[i]}': '${CUrl!.toList()[i]}'};
+      }
+     // ImageNaames= {'${ImageNames!.first}' : '${CUrl!.first}'};
+      print (ImageNaames);
+
     });
     CImages!.isEmpty
         ? emit(GetCImageErrorState())
