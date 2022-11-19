@@ -16,7 +16,9 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
   @override
   void initState() {
-    BlocProvider.of<AppCubit>(context).getChildrenData();
+    BlocProvider.of<AppCubit>(context).getCData();
+    // BlocProvider.of<AppCubit>(context).getChildrenImage();
+
     super.initState();
   }
 
@@ -28,27 +30,14 @@ class _TestScreenState extends State<TestScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
-          List? price = [];
-          List? keys = cubit.childAllData.first.keys.toList();
-          List? name = keys;
-          List? data = cubit.childAllData.first.values.toList();
+
           return Scaffold(
             appBar: AppBar(
               actions: [
                 IconButton(
                     onPressed: () {
-                      // print('values : *************** $values *************');
-                      print('keys : *************** $name *************');
-                      data.forEach((element) {
-                        print('Element **********************');
-                        print(element);
-                        element.forEach((element) {
-                          print('Element 2 **********************');
-                          print(element ['price'] );
-                          price.add(element['price']);
-                          print ('price : $price');
-                        });
-                      });
+                      cubit.getChildrenImage();
+
                     },
                     icon: const Icon(Icons.print))
               ],
@@ -59,30 +48,6 @@ class _TestScreenState extends State<TestScreen> {
               minimum: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
               child: Column(
                 children: [
-                  Container(
-                    height: 20.h,
-                    child: Row(
-                      children: [
-                        ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: keys.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              color: Colors.grey.withOpacity(0.5),
-                              margin: EdgeInsets.all(20),
-                              child: Center(
-                                child: Text(
-                                  '${keys[index]}',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
                   Expanded(
                     child: GridView.builder(
                       gridDelegate:
@@ -107,8 +72,9 @@ class _TestScreenState extends State<TestScreen> {
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      image:
-                                          AssetImage('images/red T shirt.png'),
+                                      image:cubit.CImages!.isEmpty?
+                                          NetworkImage('') :
+                                          NetworkImage('${cubit.CImages!.toList()[index]}'),
                                       fit: BoxFit.fill,
                                     ),
                                     color: Colors.grey,
@@ -134,7 +100,7 @@ class _TestScreenState extends State<TestScreen> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              '${keys[index]}',
+                                              '${cubit.keys![index]}',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: myDarkBLue,
@@ -155,7 +121,7 @@ class _TestScreenState extends State<TestScreen> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              '${price}\$',
+                                              '${cubit.price![index]}\$',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: myDarkBLue,

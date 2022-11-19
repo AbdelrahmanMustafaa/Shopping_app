@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     BlocProvider.of<AppCubit>(context).getChildrenImage();
     BlocProvider.of<AppCubit>(context).getMenImage();
     BlocProvider.of<AppCubit>(context).getWomenImage();
+    BlocProvider.of<AppCubit>(context).getCData();
 
     super.initState();
   }
@@ -111,66 +112,66 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Container(
                                         height: 20.h,
                                         child: ListView(
-                                            children: [
-                                              Container(
-                                                // make image background
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      '${cubit.childrenImages}',
-                                                    ),
-                                                    fit: BoxFit.cover,
+                                          children: [
+                                            Container(
+                                              // make image background
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    '${cubit.childrenImages}',
                                                   ),
-                                                  color: Colors.grey[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
+                                                  fit: BoxFit.cover,
                                                 ),
+                                                color: Colors.grey[300],
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
 
-                                                width: 40.w,
-                                                height: 20.h,
-                                              ),
-                                              SizedBox(
-                                                width: 5.w,
-                                              ),
-                                              Container(
-                                                // make image background
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      '${cubit.menImages}',
-                                                    ),
-                                                    fit: BoxFit.cover,
+                                              width: 40.w,
+                                              height: 20.h,
+                                            ),
+                                            SizedBox(
+                                              width: 5.w,
+                                            ),
+                                            Container(
+                                              // make image background
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    '${cubit.menImages}',
                                                   ),
-                                                  color: Colors.grey[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
+                                                  fit: BoxFit.cover,
                                                 ),
+                                                color: Colors.grey[300],
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
 
-                                                width: 40.w,
-                                                height: 20.h,
-                                              ),
-                                              SizedBox(
-                                                width: 5.w,
-                                              ),
-                                              Container(
-                                                // make image background
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      '${cubit.womenImages}',
-                                                    ),
-                                                    fit: BoxFit.cover,
+                                              width: 40.w,
+                                              height: 20.h,
+                                            ),
+                                            SizedBox(
+                                              width: 5.w,
+                                            ),
+                                            Container(
+                                              // make image background
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    '${cubit.womenImages}',
                                                   ),
-                                                  color: Colors.grey[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
+                                                  fit: BoxFit.cover,
                                                 ),
-
-                                                width: 40.w,
-                                                height: 20.h,
+                                                color: Colors.grey[300],
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
                                               ),
-                                            ],
-                                            scrollDirection: Axis.horizontal,
+
+                                              width: 40.w,
+                                              height: 20.h,
+                                            ),
+                                          ],
+                                          scrollDirection: Axis.horizontal,
                                         ),
                                       ),
                                     )

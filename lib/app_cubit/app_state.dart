@@ -67,3 +67,9 @@ class GetWomenImageLoadingState extends AppState{}
 class GetWomenImageErrorState extends AppState{}
 
 class GetWomenImageSuccessState extends AppState{}
+
+class GetCImageErrorState extends AppState{}
+
+class GetCImageSuccessState extends AppState{}
+
+class GetCImageLoadingState extends AppState{}
