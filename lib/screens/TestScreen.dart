@@ -16,10 +16,8 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
   @override
   void initState() {
-    BlocProvider.of<AppCubit>(context).getCData();
-    // BlocProvider.of<AppCubit>(context).getChildrenImage();
-
     super.initState();
+    BlocProvider.of<AppCubit>(context).getCData();
   }
 
   @override
@@ -30,19 +28,21 @@ class _TestScreenState extends State<TestScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = BlocProvider.of<AppCubit>(context);
+          List images = [];
 
           return Scaffold(
             appBar: AppBar(
               actions: [
                 IconButton(
                     onPressed: () {
-                      cubit.getChildrenImage();
-
+                      images = cubit.image;
+                      print(images.first.runtimeType);
+                      print(cubit.id);
                     },
                     icon: const Icon(Icons.print))
               ],
               backgroundColor: myLightBlack,
-             //  title: Text('${cubit.childAllData.first.keys.toList()}'),
+              //  title: Text('${cubit.childAllData.first.keys.toList()}'),
             ),
             body: SafeArea(
               minimum: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
@@ -72,9 +72,11 @@ class _TestScreenState extends State<TestScreen> {
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      image:cubit.CImages!.isEmpty?
-                                          NetworkImage('') :
-                                          NetworkImage('${cubit.CImages!.toList()[index]}'),
+                                      image: cubit.CImages!.isEmpty
+                                          ? NetworkImage('')
+                                          : NetworkImage(
+                                              '${cubit.ppp!.toList()[index]}'),
+                                      // NetworkImage('${cubit.CImages!.toList()[index]}'),
                                       fit: BoxFit.fill,
                                     ),
                                     color: Colors.grey,
