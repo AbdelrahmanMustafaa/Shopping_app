@@ -102,7 +102,7 @@ class _TestScreenState extends State<TestScreen> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              '${cubit.keys![index]}',
+                                              '5',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: myDarkBLue,
@@ -123,7 +123,7 @@ class _TestScreenState extends State<TestScreen> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              '${cubit.price![index]}\$',
+                                              'a',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: myDarkBLue,
